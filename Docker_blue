@@ -5,4 +5,4 @@ RUN rm /usr/share/nginx/html/index.html
 
 ## Step 2:
 # We will copy the source code to the directory we will work with of the blue deployment
-COPY index-blue.html /usr/share/nginx/html/index.html
+COPY blueindex.html /usr/share/nginx/html/index.html
