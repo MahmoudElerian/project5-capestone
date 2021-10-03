@@ -35,9 +35,23 @@ jobs:
             wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64 &&\
             chmod +x /bin/hadolint
             make lint
+  docker-build-push:
+    docker:
+      # - image: circleci/python:3.7.3
+    machine: true
+    steps:
+      - checkout
+      - run:
+          name: build docker image
+          command: |
+            docker login -u $DOCKER_USER -p $DOCKER_PASSOWRD
+            make buildingtheblue
+            make buildingthegreen    
 
 
 workflows:
   default:
     jobs:
       - build
+      - docker-build-push:
+          requires: [build]
