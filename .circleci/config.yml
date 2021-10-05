@@ -89,6 +89,7 @@ jobs:
             kubectl describe replicationcontrollers
             kubectl describe services bluegreenlb
 
+
 workflows:
   default:
     jobs:
