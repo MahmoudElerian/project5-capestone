@@ -1,6 +1,5 @@
 BlueimageRepo = mahmoudelerian/blueversion
 GreenimageRepo = mahmoudelerian/greenversion
-VERSION = latest
 setup:
 	# setting up the virtual environment
 	python3 -m venv ~/.devops
@@ -17,11 +16,11 @@ lint:
 buildingtheblue:
     # build and push the blue version
 	docker build -f Docker_blue -t $(BlueimageRepo) .
-	docker tag $(BlueimageRepo) $(BlueimageRepo):$(VERSION)
+	docker tag $(BlueimageRepo) 
 	docker push $(BlueimageRepo)
 buildingthegreen: 
     # build and push the green version
 	docker build -f Docker_green -t $(GreenimageRepo) .
-	docker tag $(GreenimageRepo) $(GreenimageRepo):$(VERSION)
+	docker tag $(GreenimageRepo) 
 	docker push $(GreenimageRepo)
 all: install lint
