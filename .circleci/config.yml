@@ -67,12 +67,12 @@ jobs:
       - run:
           name: Create main cluster
           command: |
-            eksctl create cluster -f ./eks-config.yml
+            eksctl create cluster -f ./eks-config-wagih.yml
        #Deploying the blue version
       - run:
           name: Deploy blue 
           command: |
-            kubectl apply -f ./blue.yml
+            kubectl apply -f ./blue-wagih.yml
       - run:
           name: Replication Controller check
           command: |
@@ -82,7 +82,7 @@ jobs:
       - run:
           name: Deploy green 
           command: |
-            kubectl apply -f ./green.yml
+            kubectl apply -f ./green-wagih.yml
       - run:
           name: Replication Controller check
           command: |
