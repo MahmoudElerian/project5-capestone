@@ -1,5 +1,5 @@
-BlueimageRepo = mahmoudelerian/capstoneblue
-GreenimageRepo = mahmoudelerian/capstonegreen
+BlueimageRepo = mahmoudelerian/blueversion
+GreenimageRepo = mahmoudelerian/greenversion
 VERSION = latest
 setup:
 	# setting up the virtual environment

@@ -36,8 +36,6 @@ jobs:
             chmod +x /bin/hadolint
             make lint
   docker-build-push:
-    docker:
-      # - image: circleci/python:3.7.3
     machine: true
     steps:
       - checkout
@@ -47,7 +45,49 @@ jobs:
             docker login -u $DOCKER_USER -p $DOCKER_PASSOWRD
             make buildingtheblue
             make buildingthegreen    
-
+  clusteranddeploy:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run: yum -y install tar gzip curl wget sudo
+      - run:
+          name: Install EKSCTL and kubectl
+          #installing the required cli
+          command: |
+            curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/0.63.0/eksctl_Linux_amd64.tar.gz" | tar xz -C /tmp
+            mv /tmp/eksctl /usr/local/bin
+            wget -q https://storage.googleapis.com/kubernetes-release/release/$(wget -q -O - https://storage.googleapis.com/kubernetes-release/release/stable.txt -O -)/bin/linux/amd64/kubectl -O kubectl
+            sudo chmod +x ./kubectl && mv ./kubectl /usr/local/bin/kubectl
+            sudo chmod +x /usr/local/bin/kubectl
+            ls -l /usr/local/bin/kubectl
+            pwd
+            ls -l
+       #Creating the cluster 
+      - run:
+          name: Create main cluster
+          command: |
+            eksctl create cluster -f ./eks-config.yml
+       #Deploying the blue version
+      - run:
+          name: Deploy blue 
+          command: |
+            kubectl apply -f ./blue.yml
+      - run:
+          name: Replication Controller check
+          command: |
+            kubectl describe replicationcontrollers
+            kubectl describe services bluegreenlb
+       #Deploying the green version
+      - run:
+          name: Deploy green 
+          command: |
+            kubectl apply -f ./green.yml
+      - run:
+          name: Replication Controller check
+          command: |
+            kubectl describe replicationcontrollers
+            kubectl describe services bluegreenlb
 
 workflows:
   default:
@@ -55,3 +95,5 @@ workflows:
       - build
       - docker-build-push:
           requires: [build]
+      - clusteranddeploy:
+          requires: [docker-build-push]
