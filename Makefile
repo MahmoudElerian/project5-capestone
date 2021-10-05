@@ -16,11 +16,11 @@ lint:
 buildingtheblue:
     # build and push the blue version
 	docker build -f Docker_blue -t $(BlueimageRepo) .
-	docker tag $(BlueimageRepo) 
+	docker tag $(BlueimageRepo) $(BlueimageRepo):latest
 	docker push $(BlueimageRepo)
 buildingthegreen: 
     # build and push the green version
 	docker build -f Docker_green -t $(GreenimageRepo) .
-	docker tag $(GreenimageRepo) 
+	docker tag $(GreenimageRepo) $(BlueimageRepo):latest
 	docker push $(GreenimageRepo)
 all: install lint
