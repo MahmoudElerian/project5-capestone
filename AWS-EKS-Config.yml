@@ -2,12 +2,12 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: d4c-cluster
+  name: basic-cluster
   region: us-east-1
 
 nodeGroups:
 
-  - name: scale-spot
+  - name: ng-1
   
     desiredCapacity: 1
     maxSize: 2
