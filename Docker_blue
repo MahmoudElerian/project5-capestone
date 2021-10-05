@@ -1,7 +1,7 @@
 FROM nginx:1.21.1
 
 ## Step 1:
-RUN rm /usr/share/nginx/html/index.html
+RUN rm /usr/share/nginx/html/index.html iuiun
 
 ## Step 2:
 # We will copy the source code to the directory we will work with of the blue deployment
